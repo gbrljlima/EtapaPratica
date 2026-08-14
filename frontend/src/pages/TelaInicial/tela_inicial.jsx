@@ -39,7 +39,7 @@ function TelaInicial() {
                                 <td> {tarefa.titulo} </td>
                                 <td> {tarefa.descricao} </td>
                                 <td> {tarefa.status} </td>
-                                <td><button>X</button><button>E</button></td>
+                                <td><button>Alternar Status</button><button>X</button></td>
                             </tr>
                         )}
                     </tbody>

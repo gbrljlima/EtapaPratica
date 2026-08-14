@@ -1,8 +1,6 @@
 let tarefas = [];
 let proximoId = 1;
 
-const STATUS = ['Concluída', 'Pendente'];
-
 module.exports = {
     listarTarefas: () => tarefas,
     buscarId: (id) => tarefas.find(tarefa => tarefa.id === id),
@@ -11,7 +9,8 @@ module.exports = {
             id: proximoId++, 
             titulo, 
             descricao,
-            status:'Pendente'
+            status:false,
+            createdAt: new Date().toISOString()
         };
         tarefas.push(novaTarefa);
         return novaTarefa;

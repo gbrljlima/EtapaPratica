@@ -41,3 +41,54 @@ export const criarTarefa = async (tarefa) => {
     throw error;
   }
 };
+export const editarTarefa = async (id) => {
+  try {
+    const response = await fetch( `${API_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Erro ao editar Tarefa");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na API:", error);
+    throw error;
+  }
+};
+export const excluirTarefa = async (id) => {
+  try {
+    const response = await fetch( `${API_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Erro ao excluir Tarefa");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na API:", error);
+    throw error;
+  }
+};
+export const listarTarefaId = async (id) => {
+  try {
+    const response = await fetch( `${API_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Erro ao buscar Tarefa");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Erro na API:", error);
+    throw error;
+  }
+};
