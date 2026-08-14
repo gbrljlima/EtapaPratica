@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3001;
 const cors = require('cors');
+const taskRouter = require('./routes/TaskRoute');
 
 app.use(express.json());
 app.listen(port, () => {
@@ -24,3 +25,4 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(taskRouter);

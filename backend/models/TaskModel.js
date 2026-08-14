@@ -11,12 +11,8 @@ let proximoId = 1;
 const STATUS = ['Concluída', 'Pendente'];
 
 module.exports = {
-    listarTarefas: () => {
-        return tarefas;
-    },
-    buscarId: (id) => {
-        return tarefas.find(tarefa => tarefa.id === id);
-    },
+    listarTarefas: () => tarefas,
+    buscarId: (id) => tarefas.find(tarefa => tarefa.id === id),
     criar: (titulo, descricao) => {
         const novaTarefa = {
             id: proximoId++, 
@@ -36,4 +32,4 @@ module.exports = {
         const indice = tarefas.findIndex(tarefa => tarefa.id === id);
         return tarefas.splice(indice, 1)[0];
     }
-}
+};
