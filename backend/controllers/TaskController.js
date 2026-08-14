@@ -6,8 +6,8 @@ module.exports = {
         res.status(200).json(tarefas);
     },
     criarTarefa: (req, res) => {
-        const { nome, descricao } = req.body;
-        const novaTarefa = taskModel.criar(nome, descricao);
+        const { titulo, descricao } = req.body;
+        const novaTarefa = taskModel.criar(titulo, descricao);
         res.status(201).json(novaTarefa);
     },
     buscarTarefa: (req, res) => {

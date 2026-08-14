@@ -1,10 +1,3 @@
-//  Tela principal que exibe todas as tarefas e permite interações.
-//  Mostrar título, descrição e status (concluída / pendente)
-// • Botão para alternar status (concluída/pendente)
-// • Botão para excluir (com confirmação)
-//  Formulário para adicionar e editar tarefas.
-
-
 let tarefas = [];
 let proximoId = 1;
 
