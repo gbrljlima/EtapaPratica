@@ -1,6 +1,6 @@
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
-import TelaInicial from "./pages/TelaInicial/tela_inicial.jsx";
-import CriarTarefa from './pages/CriarTarefa/criar_tarefa.jsx';
+import TelaInicial from "./pages/TelaInicial/TelaInicial.jsx";
+import CriarTarefa from './pages/CriarTarefa/CriarTarefa.jsx';
 
 function RoutesApp(){
     return (

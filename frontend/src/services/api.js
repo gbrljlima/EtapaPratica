@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001/';
+const API_URL = 'http://localhost:3001';
 
 
 export const criarTarefa = async (tarefa) => {
@@ -41,13 +41,14 @@ export const criarTarefa = async (tarefa) => {
     throw error;
   }
 };
-export const editarTarefa = async (id) => {
+export const editarTarefa = async (tarefa) => {
   try {
-    const response = await fetch( `${API_URL}/${id}`, {
+    const response = await fetch( `${API_URL}/${tarefa.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(tarefa),
     });
     if (!response.ok) {
       throw new Error("Erro ao editar Tarefa");
