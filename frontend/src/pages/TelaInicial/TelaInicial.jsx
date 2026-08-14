@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
-import { listarTarefas, editarTarefa } from '../../services/api';
+import { listarTarefas, editarTarefa, excluirTarefa } from '../../services/api';
 
 
 function TelaInicial() {
@@ -29,6 +29,14 @@ function TelaInicial() {
             console.error("Erro ao atualizar status", erro);
         } 
     }
+    const deleteTarefa = async (tarefa) => {
+        try{
+            const response = await excluirTarefa(tarefa);
+            setTarefas(tarefas => tarefas.filter(t => t.id !== tarefa.id));
+        } catch (erro) {
+            console.error("Erro ao excluir tarefa", erro);
+        }
+    }
     return(
         <div>
             <div>
@@ -47,7 +55,8 @@ function TelaInicial() {
                                 <td> {tarefa.titulo} </td>
                                 <td> {tarefa.descricao} </td>
                                 <td> {tarefa.status ? "Concluida" : "Pendente" } </td>
-                                <td><button onClick={() => changeStatus(tarefa)}>Alternar Status</button><button>X</button></td>
+                                <td><button onClick={() => changeStatus(tarefa)}>Alternar Status</button>
+                                <button onClick={() => deleteTarefa(tarefa)}>X</button></td>
                             </tr>
                         )}
                     </tbody>

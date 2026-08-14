@@ -59,9 +59,9 @@ export const editarTarefa = async (tarefa) => {
     throw error;
   }
 };
-export const excluirTarefa = async (id) => {
+export const excluirTarefa = async (tarefa) => {
   try {
-    const response = await fetch( `${API_URL}/${id}`, {
+    const response = await fetch( `${API_URL}/${tarefa.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -76,9 +76,9 @@ export const excluirTarefa = async (id) => {
     throw error;
   }
 };
-export const listarTarefaId = async (id) => {
+export const listarTarefaId = async (tarefa) => {
   try {
-    const response = await fetch( `${API_URL}/${id}`, {
+    const response = await fetch( `${API_URL}/${tarefa.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
