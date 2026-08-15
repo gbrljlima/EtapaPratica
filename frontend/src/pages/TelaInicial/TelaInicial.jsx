@@ -42,7 +42,7 @@ function TelaInicial() {
     }
     return(
         <div className='min-h-screen flex flex-col'>
-            <Header/>
+            <Header titulo="Lista de Tarefas"/>
             <main className='max-w-5xl mx-auto w-full px-5 py-10 flex-grow'>
                 <div className='flex justify-between items-center py-4'>
                     <button className='bg-gray-800 font-semibold rounded-md text-yellow-400 py-2 px-3 hover:text-white' onClick={handleRedirect}>+ Criar Tarefa</button>
@@ -62,9 +62,9 @@ function TelaInicial() {
                             {tarefas.map((tarefa) =>
                                 <tr key={tarefa.id} className={`${tarefa.status ? 'bg-green-300' : 'bg-gray-300'}`}>
                                     <td className='p-3 sm:p-4'> {tarefa.titulo} </td>
-                                    <td className='p-3 sm:p-4 hidden sm:table-cell '> {tarefa.descricao ? <div className="max-w-sm w-32 sm:w-auto w- max-h-24 sm:max-h-32 overflow-y-auto break-words">{tarefa.descricao}</div> : <span className='text-gray-600 italic'>Sem Descrição</span>} </td>
+                                    <td className='p-3 sm:p-4 hidden sm:table-cell '> {tarefa.descricao ? <div className="max-w-sm w-26 md:w-auto max-h-24 md:max-h-32 overflow-y-auto break-words">{tarefa.descricao}</div> : <span className='text-gray-600 italic'>Sem Descrição</span>} </td>
                                     <td className='p-3 sm:p-4'> {tarefa.status ? "Concluida" : "Pendente" } </td>
-                                    <td className='p-3 sm:p-4'><button className='bg-gray-800 font-semibold rounded-md text-yellow-400 hover:text-white px-1 py-0.5' onClick={() => changeStatus(tarefa)}>Alternar Status</button>                                    </td>
+                                    <td className='p-3 sm:p-4'><button className='bg-gray-800 font-semibold rounded-md text-yellow-400 hover:text-white px-1 py-2' onClick={() => changeStatus(tarefa)}>Alternar Status</button>                                    </td>
                                     <td className='p-3 sm:p-4'><button className='bg-red-600 border-2 border-gray-800 00 font-bold rounded-lg text-white hover:text-red-900 hover:bg-red-400 px-1.5 py-0.5 ' onClick={() => deleteTarefa(tarefa)}>X</button></td>
                                 </tr>
                             )}

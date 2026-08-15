@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
 import { criarTarefa } from '../../services/api';
+import Header from '../../components/Header';
 
 function CriarTarefa() {
     const [formData, setFormData] = useState({
@@ -23,8 +24,10 @@ function CriarTarefa() {
                 titulo: formData.titulo,
                 descricao: formData.descricao
             });
+            navigate('/')
         } catch (error) {
             console.error(error);
+            alert("Erro ao criar tarefa.");
         }
     };
 
@@ -32,27 +35,44 @@ function CriarTarefa() {
         navigate('/');
     };
     return(
-        <div>
-            <h1>Criação de Tarefas</h1>
-            <form onSubmit={handleSubmitTarefa}>
-                <input
-                    type='text'
-                    name='titulo'
-                    placeholder='Título'
-                    value={formData.titulo}
-                    required
-                    onChange={handleChange}
-                />
-                <input
-                    type='text'
-                    name='descricao'
-                    placeholder='Descrição'
-                    value={formData.descricao}
-                    onChange={handleChange}
-                />
-                <button type="submit">Salvar Tarefa</button>
-            </form>
-            <button onClick={handleRedirect}>Pagina inicial</button>
+        <div className='min-h-screen flex flex-col'>
+            <Header titulo="Criação de Tarefas" />
+            <main className='max-w-2xl mx-auto w-full px-5 py-10 flex-grow'>
+                <div className='flex items-center gap-4 mb-5'>
+                    <button className='bg-gray-800 font-semibold transition-colors rounded-md text-yellow-400 hover:text-white px-3 py-1' onClick={handleRedirect}>Voltar</button>
+                    <h1 className="text-2xl font-bold text-gray-800">Nova Tarefa</h1>
+                </div>
+                <div className='bg-gray-200 shadow-md rounded-md p-5 sm:p-8'>
+                    <form onSubmit={handleSubmitTarefa} className='flex flex-col gap-5'>
+                        <div className='flex flex-col gap-2'>
+                            <label className='font-semibold text-gray-800' >Título<span className="text-red-500">*</span></label>
+                            <input
+                                className='w-full px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
+                                type='text'
+                                name='titulo'
+                                placeholder='Ex: Estudar Tailwind CSS'
+                                value={formData.titulo}
+                                required
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <label className='font-semibold text-gray-800' >Descrição (Opcional): </label>
+                            <textarea className='px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
+                                type='text'
+                                name='descricao'
+                                placeholder='Descrição da sua tarefa...'
+                                value={formData.descricao}
+                                onChange={handleChange}
+                                rows='3'
+                            />
+                        </div>
+                        <div className='flex justify-end'>
+                            <button className='bg-gray-800 transition-colors font-semibold rounded-md text-yellow-400 hover:text-white px-5 py-2 text-lg' type="submit">Criar Tarefa</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
         </div>
     )
 }
