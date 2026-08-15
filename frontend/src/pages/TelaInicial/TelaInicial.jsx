@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
 import { listarTarefas, editarTarefa, excluirTarefa } from '../../services/api';
 import Header from '../../components/Header';
+import BotaoConfirmacao from '../../components/BotaoConfirmacao';
 
 
 function TelaInicial() {
     const [tarefas, setTarefas] = useState ([]);
+    const [confirmaExclusao, setConfirmaExclusao] = useState (null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,7 +28,7 @@ function TelaInicial() {
     const changeStatus = async (tarefa) => {
         try {
             tarefa.status = !tarefa.status;
-            const response = await editarTarefa(tarefa.id, {
+            await editarTarefa(tarefa.id, {
                 titulo: tarefa.titulo,
                 status: tarefa.status 
             });            
@@ -36,15 +38,17 @@ function TelaInicial() {
             console.error("Erro ao atualizar status", erro);
         } 
     }
-    const deleteTarefa = async (tarefa) => {
+    const deleteTarefa = async () => {
         try{
-            const response = await excluirTarefa(tarefa);
-            setTarefas(tarefas => tarefas.filter(t => t.id !== tarefa.id));
+            await excluirTarefa(confirmaExclusao.id);
+            setTarefas(tarefaExcluida => tarefaExcluida.filter(t => t.id !== confirmaExclusao.id));
+            setConfirmaExclusao(null);
         } catch (erro) {
             console.error("Erro ao excluir tarefa", erro);
         }
     }
     return(
+        
         <div className='min-h-screen flex flex-col'>
             <Header titulo="Lista de Tarefas"/>
             <main className='max-w-5xl mx-auto w-full px-5 py-10 flex-grow'>
@@ -59,6 +63,7 @@ function TelaInicial() {
                                 <th className='p-3 sm:p-4 font-semibold hidden sm:table-cell'>Descrição</th>
                                 <th className='p-3 sm:p-4 font-semibold'>Status</th>
                                 <th className='p-3 sm:p-4 font-semibold'>Alternar Status</th>
+                                <th className='p-3 sm:p-4 font-semibold'>Editar</th>
                                 <th className='p-3 sm:p-4 font-semibold'>Excluir</th>
                             </tr>
                         </thead>
@@ -68,15 +73,23 @@ function TelaInicial() {
                                     <td className='p-3 sm:p-4'> {tarefa.titulo} </td>
                                     <td className='p-3 sm:p-4 hidden sm:table-cell '> {tarefa.descricao ? <div className="max-w-sm w-26 md:w-auto max-h-24 md:max-h-32 overflow-y-auto break-words">{tarefa.descricao}</div> : <span className='text-gray-600 italic'>Sem Descrição</span>} </td>
                                     <td className='p-3 sm:p-4'> {tarefa.status ? "Concluida" : "Pendente" } </td>
-                                    <td className='p-3 sm:p-4'><button className='bg-gray-800 font-semibold rounded-md text-yellow-400 hover:text-white px-1 py-2' onClick={() => changeStatus(tarefa)}>Alternar Status</button>                                    </td>
-                                    <td className='p-3 sm:p-4'><button className='bg-red-600 border-2 border-gray-800 00 font-bold rounded-lg text-white hover:text-red-900 hover:bg-red-400 px-1.5 py-0.5 ' onClick={() => deleteTarefa(tarefa)}>X</button></td>
+                                    <td className='p-3 sm:p-4'><button className='bg-gray-800 font-semibold rounded-md text-yellow-400 hover:text-white px-1 py-2' onClick={() => changeStatus(tarefa)}>Alternar Status</button></td>
+                                    <td className='p-3 sm:p-4'><button className='bg-gray-800 font-semibold rounded-md text-yellow-400 hover:text-white px-1 py-2' onClick={() => navigate(`/editar/${tarefa.id}`)}>Editar</button></td>
+                                    <td className='p-3 sm:p-4'><button className='bg-red-600 border-2 border-gray-800 00 font-bold rounded-lg text-white hover:text-red-900 hover:bg-red-400 px-1.5 py-0.5 ' onClick={() => setConfirmaExclusao(tarefa)}>X</button></td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                 </div>
             </main>
+            {confirmaExclusao !== null && (
+                <BotaoConfirmacao 
+                confirmar={deleteTarefa} 
+                cancelar={() => setConfirmaExclusao(null)} 
+                />
+            )}
         </div>
+        
     )
 }
 
