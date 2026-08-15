@@ -1,90 +1,48 @@
+import axios from 'axios';
 const API_URL = 'http://localhost:3001/api/tasks';
 
 
 export const criarTarefa = async (tarefa) => {
     try {
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(tarefa),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        const error = new Error(errorData.message || 'Erro ao criar tarefa');
-        error.response = response;
-        throw error;
-    }
-    return await response.json();
-
+      const response = await axios.post(API_URL, tarefa);
+      return await response.data;
     } catch (error) {
-      console.error("Erro na API:", error);
-    }  
-  };
-  export const listarTarefas = async () => {
-  try {
-    const response = await fetch( API_URL, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Erro ao buscar Tarefas");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Erro na API:", error);
+      console.error("Erro na API:", erro.response?.data?.erro || erro.message);
   }
 };
-export const editarTarefa = async (tarefa) => {
+export const listarTarefas = async () => {
   try {
-    const response = await fetch( `${API_URL}/${tarefa.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(tarefa),
-    });
-    if (!response.ok) {
-      throw new Error("Erro ao editar Tarefa");
-    }
-    return await response.json();
+    const response = await axios.get(API_URL);
+    return await response.data;
   } catch (error) {
-    console.error("Erro na API:", error);
+    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+  }
+};
+export const editarTarefa = async (id, tarefa) => {
+  try {
+    const response = await axios.put( `${API_URL}/${id}`, tarefa);
+
+    console.log("Tarefa Atualizada", response.data);
+    return await response.data;
+  } catch (error) {
+    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
   }
 };
 export const excluirTarefa = async (tarefa) => {
   try {
-    const response = await fetch( `${API_URL}/${tarefa.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Erro ao excluir Tarefa");
-    }
-    return await response.json();
+    const response = await axios.delete( `${API_URL}/${tarefa.id}`);
+
+    return await response.data;
   } catch (error) {
-    console.error("Erro na API:", error);
+    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
   }
 };
-export const listarTarefaId = async (tarefa) => {
+export const listarTarefaId = async (id) => {
   try {
-    const response = await fetch(`${API_URL}/${tarefa.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      throw new Error("Erro ao buscar Tarefa");
-    }
-    return await response.json();
+    const response = await axios.get(`${API_URL}/${id}`);
+
+  return await response.data;
   } catch (error) {
-    console.error("Erro na API:", error);
+    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
   }
 };

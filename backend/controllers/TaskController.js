@@ -24,12 +24,18 @@ module.exports = {
     },
     atualizarTarefa: (req, res) => {
         const id = Number(req.params.id);
+        if (req.body.id) {
+            return res.status(400).json({ erro: "Não é permitido alterar o ID de uma tarefa." });
+        }
+        if (req.body.status !== undefined && typeof req.body.status !== 'boolean') {
+            return res.status(400).json({ erro: "O status deve ser obrigatoriamente true ou false." });
+        }
+        if (!req.body.titulo) {
+            return res.status(400).json({ erro: "Título é obrigatório" });
+        }
         const tarefaAtualizada = taskModel.atualizar(id, req.body);
         if (!tarefaAtualizada) {
             return res.status(404).json({ erro: "Tarefa não encontrada" });
-        }
-        if (!req.body.titulo || req.body.status != (true || false)) {
-            return res.status(400).json({ erro: "Atualização não foi completada, verifique seus dados." });
         }
         res.status(200).json(tarefaAtualizada);
     },

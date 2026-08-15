@@ -26,8 +26,12 @@ function TelaInicial() {
     const changeStatus = async (tarefa) => {
         try {
             tarefa.status = !tarefa.status;
-            const response = await editarTarefa(tarefa);            
-            setTarefas(tarefa => tarefa.map(t => t.id === tarefa.id ? { ...t, status: !tarefa.status } : t ));        
+            const response = await editarTarefa(tarefa.id, {
+                titulo: tarefa.titulo,
+                status: tarefa.status 
+            });            
+            setTarefas(tarefa => tarefa.map(t => t.id === tarefa.id ? { ...t, status: !tarefa.status } : t ))
+                   
         } catch(erro) {
             console.error("Erro ao atualizar status", erro);
         } 

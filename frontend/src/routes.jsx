@@ -8,6 +8,7 @@ function RoutesApp(){
             <Routes>
                 <Route path='/' element = {<TelaInicial/>}/>
                 <Route path='/criar' element = {<CriarTarefa/>}/>
+                <Route path='/editar/:id' element = {<CriarTarefa/>}/>
             </Routes>
         </BrowserRouter>
     )
