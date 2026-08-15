@@ -7,8 +7,8 @@ module.exports = {
     criar: (titulo, descricao) => {
         const novaTarefa = {
             id: proximoId++, 
-            titulo, 
-            descricao,
+            titulo: titulo, 
+            descricao: descricao || "",
             status:false,
             createdAt: new Date().toISOString()
         };

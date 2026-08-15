@@ -53,7 +53,7 @@ function TelaInicial() {
                         {tarefas.map((tarefa) =>
                             <tr key={tarefa.id}>
                                 <td> {tarefa.titulo} </td>
-                                <td> {tarefa.descricao} </td>
+                                <td> {tarefa.descricao ? tarefa.descricao : "--------------"} </td>
                                 <td> {tarefa.status ? "Concluida" : "Pendente" } </td>
                                 <td><button onClick={() => changeStatus(tarefa)}>Alternar Status</button>
                                 <button onClick={() => deleteTarefa(tarefa)}>X</button></td>

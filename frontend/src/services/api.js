@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3001/api/tasks';
 
 
 export const criarTarefa = async (tarefa) => {
@@ -13,7 +13,7 @@ export const criarTarefa = async (tarefa) => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const error = new Error(errorData.message || 'Erro ao criar conta');
+        const error = new Error(errorData.message || 'Erro ao criar tarefa');
         error.response = response;
         throw error;
     }
@@ -21,7 +21,6 @@ export const criarTarefa = async (tarefa) => {
 
     } catch (error) {
       console.error("Erro na API:", error);
-      throw error;
     }  
   };
   export const listarTarefas = async () => {
@@ -38,7 +37,6 @@ export const criarTarefa = async (tarefa) => {
     return await response.json();
   } catch (error) {
     console.error("Erro na API:", error);
-    throw error;
   }
 };
 export const editarTarefa = async (tarefa) => {
@@ -56,7 +54,6 @@ export const editarTarefa = async (tarefa) => {
     return await response.json();
   } catch (error) {
     console.error("Erro na API:", error);
-    throw error;
   }
 };
 export const excluirTarefa = async (tarefa) => {
@@ -73,12 +70,11 @@ export const excluirTarefa = async (tarefa) => {
     return await response.json();
   } catch (error) {
     console.error("Erro na API:", error);
-    throw error;
   }
 };
 export const listarTarefaId = async (tarefa) => {
   try {
-    const response = await fetch( `${API_URL}/${tarefa.id}`, {
+    const response = await fetch(`${API_URL}/${tarefa.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -90,6 +86,5 @@ export const listarTarefaId = async (tarefa) => {
     return await response.json();
   } catch (error) {
     console.error("Erro na API:", error);
-    throw error;
   }
 };
