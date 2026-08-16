@@ -11,7 +11,7 @@ Você precisará ter o Node.js instalado. (https://nodejs.org/pt-br/download)
 ### Backend: 
 * Abra o terminal e navegue até a pasta do backend (cd backend);
 * Instale as dependências (npm install);
-* Inicie o servidor (npm index.js);
+* Inicie o servidor (node index.js);
 * A Api estará rodando em http://localhost:3001/ .
 
 ### Frontend:
