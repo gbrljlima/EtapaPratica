@@ -60,6 +60,7 @@ function TelaInicial() {
             await excluirTarefa(confirmaExclusao.id);
             setTarefas(tarefaExcluida => tarefaExcluida.filter(t => t.id !== confirmaExclusao.id));
             setConfirmaExclusao(null);
+            toast.success("Tarefa excluída!");
         } catch (erro) {
             console.error("Erro ao excluir tarefa", erro);
             toast.error("Erro ao excluir tarefa!");

@@ -8,6 +8,7 @@ export const criarTarefa = async (tarefa) => {
       return await response.data;
     } catch (error) {
       console.error("Erro na API:", error.response?.data?.erro || error.message);
+      throw error;
   }
 };
 export const listarTarefas = async () => {
@@ -16,6 +17,7 @@ export const listarTarefas = async () => {
     return await response.data;
   } catch (error) {
     console.error("Erro na API:", error.response?.data?.erro || error.message);
+    throw error;
   }
 };
 export const editarTarefa = async (id, tarefa) => {
@@ -26,6 +28,7 @@ export const editarTarefa = async (id, tarefa) => {
     return await response.data;
   } catch (error) {
     console.error("Erro na API:", error.response?.data?.erro || error.message);
+    throw error;
   }
 };
 export const excluirTarefa = async (id) => {
@@ -35,6 +38,7 @@ export const excluirTarefa = async (id) => {
     return await response.data;
   } catch (error) {
     console.error("Erro na API:", error.response?.data?.erro || error.message);
+    throw error;
   }
 };
 export const listarTarefaId = async (id) => {
@@ -44,5 +48,6 @@ export const listarTarefaId = async (id) => {
   return await response.data;
   } catch (error) {
     console.error("Erro na API:", error.response?.data?.erro || error.message);
+    throw error;
   }
 };
