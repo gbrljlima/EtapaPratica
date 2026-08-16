@@ -4,8 +4,6 @@ const port = 3001;
 const cors = require('cors');
 const taskRouter = require('./routes/TaskRoute');
 
-
-
 const allowedOrigins = ['http://localhost:5173',
     'http://localhost:3001', 
     'https://gerenciador-de-tarefas-ysd6.onrender.com', 
