@@ -32,7 +32,5 @@ A organização da aplicação está dividida em duas partes (backend e frontend
         └───src
             ├───components
             ├───pages
-            │   ├───CriarTarefa
-            │   └───TelaInicial
             └───services
     

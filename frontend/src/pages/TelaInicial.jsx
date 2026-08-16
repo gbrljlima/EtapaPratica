@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router';
-import { listarTarefas, editarTarefa, excluirTarefa } from '../../services/api';
-import Header from '../../components/Header';
-import BotaoConfirmacao from '../../components/BotaoConfirmacao';
+import { listarTarefas, editarTarefa, excluirTarefa } from '../services/api';
+import Header from '../components/Header';
+import BotaoConfirmacao from '../components/BotaoConfirmacao';
 import { ToastContainer, toast } from 'react-toastify';
-import Loading from '../../components/Loading';
+import Loading from '../components/Loading';
 
 
 function TelaInicial() {

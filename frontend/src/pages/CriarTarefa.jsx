@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { criarTarefa, editarTarefa, listarTarefaId } from '../../services/api';
-import Header from '../../components/Header';
+import { criarTarefa, editarTarefa, listarTarefaId } from '../services/api';
+import Header from '../components/Header';
 import { ToastContainer, toast } from 'react-toastify';
-import Loading from '../../components/Loading';
+import Loading from '../components/Loading';
 
 function CriarTarefa() {
     const [formData, setFormData] = useState({
