@@ -4,15 +4,12 @@ const port = 3001;
 const cors = require('cors');
 const taskRouter = require('./routes/TaskRoute');
 
-app.use(express.json());
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
+
 
 const allowedOrigins = ['http://localhost:5173',
     'http://localhost:3001', 
     'https://gerenciador-de-tarefas-ysd6.onrender.com', 
-    'https://gerenciador-de-tarefas-drab-xi.vercel.app/'];
+    'https://gerenciador-de-tarefas-drab-xi.vercel.app'];
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -28,3 +25,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(taskRouter);
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+});
