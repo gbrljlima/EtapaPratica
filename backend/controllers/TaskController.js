@@ -1,22 +1,25 @@
 const taskModel = require('../models/TaskModel');
+const atrasar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 module.exports = {
-    listarTarefas: (req, res) => {
+    listarTarefas: async (req, res) => {
+        await atrasar(2000);
         const tarefas = taskModel.listarTarefas();
         res.status(200).json(tarefas);
     },
     criarTarefa: (req, res) => {
-        const { titulo, descricao } = req.body;
-        if (!req.body.titulo) {
-            return res.status(400).json({ erro: "O campo 'titulo' é obrigatório." });
+        const { title, description } = req.body;
+        if (!req.body.title) {
+            return res.status(400).json({ erro: "O campo 'Título' é obrigatório." });
         }    
-        const novaTarefa = taskModel.criar(titulo, descricao);
+        const novaTarefa = taskModel.criar(title, description);
         res.status(201).json(novaTarefa);
     },
-    buscarTarefa: (req, res) => {
+    buscarTarefa: async (req, res) => {
+        await atrasar(2000);
         const id = Number(req.params.id);
         const tarefa = taskModel.buscarId(id);
-
+    
         if (!tarefa) {
             return res.status(404).json({ erro: "Tarefa não encontrada" });
         }
@@ -24,16 +27,22 @@ module.exports = {
     },
     atualizarTarefa: (req, res) => {
         const id = Number(req.params.id);
+        const { title, description, completed } = req.body;
         if (req.body.id) {
             return res.status(400).json({ erro: "Não é permitido alterar o ID de uma tarefa." });
         }
-        if (req.body.status !== undefined && typeof req.body.status !== 'boolean') {
+        if (completed !== undefined && typeof completed !== 'boolean') {
             return res.status(400).json({ erro: "O status deve ser obrigatoriamente true ou false." });
         }
-        if (!req.body.titulo) {
+        if (!title) {
             return res.status(400).json({ erro: "Título é obrigatório" });
         }
-        const tarefaAtualizada = taskModel.atualizar(id, req.body);
+        const dados = {
+            title: title,
+            description: description,
+            completed: completed
+        }
+        const tarefaAtualizada = taskModel.atualizar(id, dados);
         if (!tarefaAtualizada) {
             return res.status(404).json({ erro: "Tarefa não encontrada" });
         }

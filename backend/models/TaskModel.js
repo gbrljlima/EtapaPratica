@@ -7,9 +7,9 @@ module.exports = {
     criar: (titulo, descricao) => {
         const novaTarefa = {
             id: proximoId++, 
-            titulo: titulo, 
-            descricao: descricao || "",
-            status:false,
+            title: titulo, 
+            description: descricao || "",
+            completed: false,
             createdAt: new Date().toISOString()
         };
         tarefas.push(novaTarefa);
