@@ -10,7 +10,9 @@ app.listen(port, () => {
 });
 
 const allowedOrigins = ['http://localhost:5173',
-    'http://localhost:3001'];
+    'http://localhost:3001', 
+    'https://gerenciador-de-tarefas-ysd6.onrender.com', 
+    'https://gerenciador-de-tarefas-drab-xi.vercel.app/'];
 
 const corsOptions = {
     origin: function (origin, callback) {
