@@ -1,29 +1,48 @@
-let tarefas = [];
-let proximoId = 1;
+const supabase = require('../config/supabase');
 
-module.exports = {
-    listarTarefas: () => tarefas,
-    buscarId: (id) => tarefas.find(tarefa => tarefa.id === id),
-    criar: (titulo, descricao) => {
-        const novaTarefa = {
-            id: proximoId++, 
-            title: titulo, 
-            description: descricao || "",
-            completed: false,
-            createdAt: new Date().toISOString()
-        };
-        tarefas.push(novaTarefa);
-        return novaTarefa;
+const taskModel = {
+    listarTarefas: async () => {
+        const { data, error } = await supabase.from('tarefas').select('*');
+        if (error) throw error;
+        return data;
     },
-    atualizar: (id, novosDados) => {
-        const indice = tarefas.findIndex(tarefa => tarefa.id === id);
-        if (indice === -1) throw new Error("Tarefa não encontrada");
-        tarefas[indice] = {...tarefas[indice], ... novosDados};
-        return tarefas[indice]; 
+    buscarId: async (id) => {
+        const { data, error } = await supabase
+        .from('tarefas')
+        .select('*')
+        .eq('id', id)
+        .single();
+        if (error) {
+            return null;
+        }
     },
-    excluir: (id) => {
-        const indice = tarefas.findIndex(tarefa => tarefa.id === id);
-        if (indice === -1) throw new Error("Tarefa não encontrada");
-        return tarefas.splice(indice, 1)[0];
+    criar: async (novaTarefa) => {
+        const { data, error } = await supabase
+            .from('tarefas')
+            .insert([novaTarefa])
+            .select();
+        if (error) throw error;
+        return data[0];
+    },
+    atualizar: async (id, dadosAtualizados) => {
+        const { data, error } = await supabase
+            .from('tarefas')
+            .update(dadosAtualizados)
+            .eq('id', id)
+            .select();
+        if (error) throw error;
+        return data.length > 0 ? data[0] : null; 
+    },
+    excluir: async (id) => {
+        const { data, error } = await supabase
+            .from('tarefas')
+            .delete()
+            .eq('id', id)
+            .select();
+
+        if (error) throw error;
+        return data.length > 0;
     }
 };
+
+module.exports = taskModel;

@@ -1,31 +1,38 @@
 const taskModel = require('../models/TaskModel');
-const atrasar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 module.exports = {
     listarTarefas: async (req, res) => {
-        await atrasar(2000);
-        const tarefas = taskModel.listarTarefas();
-        res.status(200).json(tarefas);
+        try {
+            const tarefas = await taskModel.listarTarefas();
+            res.status(200).json(tarefas);
+        } catch (erro) {
+            console.error("ERRO COMPLETO AO LISTAR TAREFAS:", erro); 
+            res.status(500).json({ erro: erro.message });
+        }
     },
-    criarTarefa: (req, res) => {
-        const { title, description } = req.body;
+    criarTarefa: async (req, res) => {
+        try{
+            const novaTarefa = req.body;
         if (!req.body.title) {
             return res.status(400).json({ erro: "O campo 'Título' é obrigatório." });
         }    
-        const novaTarefa = taskModel.criar(title, description);
-        res.status(201).json(novaTarefa);
+        const criar = await taskModel.criar(novaTarefa);
+        res.status(201).json(criar);
+        } catch (erro) {
+            console.error("ERRO COMPLETO AO CRIAR TAREFAS:", erro); 
+            res.status(500).json({ erro: erro.message });
+        }   
     },
     buscarTarefa: async (req, res) => {
-        await atrasar(2000);
         const id = Number(req.params.id);
-        const tarefa = taskModel.buscarId(id);
+        const tarefa = await taskModel.buscarId(id);
     
         if (!tarefa) {
             return res.status(404).json({ erro: "Tarefa não encontrada" });
         }
         res.status(200).json(tarefa);
     },
-    atualizarTarefa: (req, res) => {
+    atualizarTarefa: async (req, res) => {
         const id = Number(req.params.id);
         const { title, description, completed } = req.body;
         if (req.body.id) {
@@ -42,15 +49,15 @@ module.exports = {
             description: description,
             completed: completed
         }
-        const tarefaAtualizada = taskModel.atualizar(id, dados);
+        const tarefaAtualizada = await taskModel.atualizar(id, dados);
         if (!tarefaAtualizada) {
             return res.status(404).json({ erro: "Tarefa não encontrada" });
         }
         res.status(200).json(tarefaAtualizada);
     },
-    excluirTarefa: (req, res) => {
+    excluirTarefa: async (req, res) => {
         const id = Number(req.params.id);
-        const excluirTarefa = taskModel.excluir(id);
+        const excluirTarefa = await taskModel.excluir(id);
 
         if (!excluirTarefa) {
             return res.status(404).json({ erro: "Tarefa não encontrada!" });
