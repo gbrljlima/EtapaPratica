@@ -15,6 +15,7 @@ const taskModel = {
         if (error) {
             return null;
         }
+        return data;
     },
     criar: async (novaTarefa) => {
         const { data, error } = await supabase
