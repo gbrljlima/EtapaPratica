@@ -2,21 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { criarTarefa, editarTarefa, listarTarefaId } from '../../services/api';
 import Header from '../../components/Header';
+import { ToastContainer, toast } from 'react-toastify';
+import Loading from '../../components/Loading';
 
 function CriarTarefa() {
     const [formData, setFormData] = useState({
-       titulo:'',
-       descricao:'',
-       status:''
+       title:'',
+       description:'',
+       completed:''
     });
+    const [carregamento, setCarregamento] = useState(true);
     const navigate = useNavigate();
     const {id} = useParams();
     const modoEdicao = Boolean(id);
-
+    
     const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
+    };
 
     useEffect(() => {
         if(modoEdicao) {
@@ -24,12 +27,15 @@ function CriarTarefa() {
                 try {
                     const tarefa = await listarTarefaId(id);
                     setFormData({
-                        titulo: tarefa.titulo,
-                        descricao: tarefa.descricao || '',
-                        status: tarefa.status
+                        title: tarefa.title,
+                        description: tarefa.description || '',
+                        completed: tarefa.completed
                     });
                 } catch (error) {
                     console.error("Erro ao buscar tarefa", error);
+                    toast.error("Erro ao buscar tarefa!");
+                } finally {
+                    setCarregamento(false);
                 }
             };
             fetchTarefa();
@@ -38,8 +44,8 @@ function CriarTarefa() {
     const fetchTarefa = async() => {
         const tarefa = await listarTarefaId(id);
         setFormData({
-            titulo: tarefa.titulo,
-            descricao: tarefa.descricao
+            title: tarefa.title,
+            description: tarefa.description
         })
     }
     const handleSubmitTarefa = async (e) => {
@@ -48,22 +54,22 @@ function CriarTarefa() {
         try {
             if (modoEdicao) {
                 await editarTarefa(id, {
-                    titulo: formData.titulo,
-                    descricao: formData.descricao
+                    title: formData.title,
+                    description: formData.description
                 });
             } else {
                 await criarTarefa({
-                    titulo: formData.titulo,
-                    descricao: formData.descricao
+                    title: formData.title,
+                    description: formData.description
                 });
             }
-            navigate('/')
+            navigate('/');
         } catch (error) {
             console.error(error);
             if (modoEdicao) {
-                alert("Erro ao editar tarefa.");
+                toast.error("Erro ao editar tarefa!");
             } else {
-                alert("Erro ao criar tarefa.");
+                toast.error("Erro ao criar tarefa!");
             }
         }
     };
@@ -73,12 +79,13 @@ function CriarTarefa() {
     };
     return(
         <div className='min-h-screen flex flex-col'>
-            <Header titulo={modoEdicao ? "Edição de Tarefas" : "Criação de Tarefas"} />
+            <Header titulo={modoEdicao ? "Edição de Tarefas" : "Criação de Tarefas"}/>
             <main className='max-w-2xl mx-auto w-full px-5 py-10 flex-grow'>
                 <div className='flex items-center gap-4 mb-5'>
                     <button className='bg-gray-800 font-semibold transition-colors rounded-md text-yellow-400 hover:text-white px-3 py-1' onClick={handleRedirect}>Voltar</button>
                     <h1 className="text-2xl font-bold text-gray-800">{modoEdicao ? "Editar Tarefa" : "Nova Tarefa"}</h1>
                 </div>
+                {carregamento && modoEdicao ? <Loading texto="Tarefa"/> :
                 <div className='bg-gray-200 shadow-md rounded-md p-5 sm:p-8'>
                     <form onSubmit={handleSubmitTarefa} className='flex flex-col gap-5'>
                         <div className='flex flex-col gap-2'>
@@ -86,9 +93,9 @@ function CriarTarefa() {
                             <input
                                 className='w-full px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
                                 type='text'
-                                name='titulo'
+                                name='title'
                                 placeholder='Ex: Estudar Tailwind CSS'
-                                value={formData.titulo}
+                                value={formData.title}
                                 required
                                 onChange={handleChange}
                             />
@@ -97,9 +104,9 @@ function CriarTarefa() {
                             <label className='font-semibold text-gray-800' >Descrição (Opcional): </label>
                             <textarea className='px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
                                 type='text'
-                                name='descricao'
+                                name='description'
                                 placeholder='Descrição da sua tarefa...'
-                                value={formData.descricao}
+                                value={formData.description}
                                 onChange={handleChange}
                                 rows='3'
                             />
@@ -109,8 +116,10 @@ function CriarTarefa() {
                         </div>
                     </form>
                 </div>
-            </main>
+            }
+            </main><ToastContainer/>
         </div>
+        
     )
 }
 
