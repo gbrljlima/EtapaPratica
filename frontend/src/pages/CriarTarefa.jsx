@@ -22,16 +22,22 @@ function CriarTarefa() {
     };
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
         if(modoEdicao) {
             const fetchTarefa = async() => {
                 try {
-                    const tarefa = await listarTarefaId(id);
+                    const tarefa = await listarTarefaId(id, {signal});
                     setFormData({
                         title: tarefa.title,
                         description: tarefa.description || '',
                         completed: tarefa.completed
                     });
                 } catch (error) {
+                    if (error.name === 'CanceledError' || error.message === 'canceled') {
+                        console.log("Requisição anterior cancelada.");
+                        return; 
+                    }
                     console.error("Erro ao buscar tarefa", error);
                     toast.error("Erro ao buscar tarefa!");
                 } finally {
@@ -39,6 +45,9 @@ function CriarTarefa() {
                 }
             };
             fetchTarefa();
+            return () => {
+                controller.abort();
+            };
         };
     }, [id, modoEdicao]);
 
