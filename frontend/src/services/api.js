@@ -41,11 +41,10 @@ export const excluirTarefa = async (id) => {
     throw error;
   }
 };
-export const listarTarefaId = async (id) => {
+export const listarTarefaId = async (id, config = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/${id}`);
-
-  return await response.data;
+    const response = await axios.get(`${API_URL}/${id}`, config);
+    return await response.data;
   } catch (error) {
     console.error("Erro na API:", error.response?.data?.erro || error.message);
     throw error;
