@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = 'https://gerenciador-de-tarefas-ysd6.onrender.com/api/tasks';
+const API_URL = 'http://localhost:3001/api/tasks';
 
 
 export const criarTarefa = async (tarefa) => {
