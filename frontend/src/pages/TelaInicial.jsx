@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router';
 import { listarTarefas, editarTarefa, excluirTarefa } from '../services/api';
 import Header from '../components/Header';
 import BotaoConfirmacao from '../components/BotaoConfirmacao';
@@ -12,6 +12,7 @@ function TelaInicial() {
     const [confirmaExclusao, setConfirmaExclusao] = useState (null);
     const [carregamento, setCarregamento] = useState(true);
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const fetchTarefas = async () => {
@@ -27,6 +28,13 @@ function TelaInicial() {
     }
         fetchTarefas();
     }, []);
+
+    useEffect(() => {
+    if (location.state?.mensagemSucesso) {
+      toast.success(location.state.mensagemSucesso);
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location, navigate]);
 
     const handleRedirect = () => {
         navigate('/criar');
@@ -132,7 +140,7 @@ function TelaInicial() {
                 cancelar={() => setConfirmaExclusao(null)} 
                 />
             )}
-            <ToastContainer/>
+            <ToastContainer autoClose={2000} />
         </div>
     )
 }

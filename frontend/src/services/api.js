@@ -7,7 +7,7 @@ export const criarTarefa = async (tarefa) => {
       const response = await axios.post(API_URL, tarefa);
       return await response.data;
     } catch (error) {
-      console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+      console.error("Erro na API:", error.response?.data?.erro || error.message);
   }
 };
 export const listarTarefas = async () => {
@@ -15,7 +15,7 @@ export const listarTarefas = async () => {
     const response = await axios.get(API_URL);
     return await response.data;
   } catch (error) {
-    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+    console.error("Erro na API:", error.response?.data?.erro || error.message);
   }
 };
 export const editarTarefa = async (id, tarefa) => {
@@ -25,16 +25,16 @@ export const editarTarefa = async (id, tarefa) => {
     console.log("Tarefa Atualizada", response.data);
     return await response.data;
   } catch (error) {
-    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+    console.error("Erro na API:", error.response?.data?.erro || error.message);
   }
 };
-export const excluirTarefa = async (tarefa) => {
+export const excluirTarefa = async (id) => {
   try {
-    const response = await axios.delete( `${API_URL}/${tarefa.id}`);
+    const response = await axios.delete( `${API_URL}/${id}`);
 
     return await response.data;
   } catch (error) {
-    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+    console.error("Erro na API:", error.response?.data?.erro || error.message);
   }
 };
 export const listarTarefaId = async (id) => {
@@ -43,6 +43,6 @@ export const listarTarefaId = async (id) => {
 
   return await response.data;
   } catch (error) {
-    console.error("Erro na API:", erro.response?.data?.erro || erro.message);
+    console.error("Erro na API:", error.response?.data?.erro || error.message);
   }
 };

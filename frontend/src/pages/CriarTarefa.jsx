@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { criarTarefa, editarTarefa, listarTarefaId } from '../services/api';
 import Header from '../components/Header';
@@ -40,14 +40,8 @@ function CriarTarefa() {
             };
             fetchTarefa();
         };
-    }, [id]);
-    const fetchTarefa = async() => {
-        const tarefa = await listarTarefaId(id);
-        setFormData({
-            title: tarefa.title,
-            description: tarefa.description
-        })
-    }
+    }, [id, modoEdicao]);
+
     const handleSubmitTarefa = async (e) => {
           e.preventDefault();
           console.log('Form data:', formData);
@@ -55,15 +49,17 @@ function CriarTarefa() {
             if (modoEdicao) {
                 await editarTarefa(id, {
                     title: formData.title,
-                    description: formData.description
+                    description: formData.description,
+                    completed: formData.completed
                 });
+                navigate('/', { state: { mensagemSucesso: "Tarefa Editada com sucesso!" } });
             } else {
                 await criarTarefa({
                     title: formData.title,
                     description: formData.description
                 });
-            }
-            navigate('/');
+                navigate('/', { state: { mensagemSucesso: "Tarefa criada com sucesso!" } });
+            }    
         } catch (error) {
             console.error(error);
             if (modoEdicao) {
