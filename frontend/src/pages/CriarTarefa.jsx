@@ -16,6 +16,7 @@ function CriarTarefa() {
     const {id} = useParams();
     const modoEdicao = Boolean(id);
     const [tarefaOriginal, setTarefaOriginal] = useState(null);
+    const [salvando, setSalvando] = useState(false);
     
     const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +57,8 @@ function CriarTarefa() {
 
     const handleSubmitTarefa = async (e) => {
         e.preventDefault();
+        if (salvando) return;
+        setSalvando(true);
         const formularioIgual = JSON.stringify(formData) === JSON.stringify(tarefaOriginal);
         if (formularioIgual) {
             console.log("Nenhuma alteração na tarefa detectada...");
@@ -84,6 +87,7 @@ function CriarTarefa() {
             } else {
                 toast.error("Erro ao criar tarefa!");
             }
+            setSalvando(false);
         }
     };
 
@@ -127,7 +131,7 @@ function CriarTarefa() {
                             />
                         </div>
                         <div className='flex justify-end'>
-                            <button className='bg-gray-800 transition-colors font-semibold rounded-md text-yellow-400 hover:text-white px-5 py-2 text-lg' type="submit">{modoEdicao ? "Editar Tarefa" : "Criar Tarefa"}</button>
+                            <button disabled={salvando} className='bg-gray-800 transition-colors font-semibold rounded-md text-yellow-400 hover:text-white px-5 py-2 text-lg' type="submit">{salvando ? "Salvando..." : (modoEdicao ? "Editar Tarefa" : "Criar Tarefa")}</button>
                         </div>
                     </form>
                 </div>
