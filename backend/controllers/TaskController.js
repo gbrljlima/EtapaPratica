@@ -43,6 +43,12 @@ module.exports = {
         if (!title) {
             return res.status(400).json({ erro: "Título é obrigatório" });
         }
+        if (title.length > 100) {
+            return res.status(400).json({ erro: "O título deve ter no máximo 100 caracteres" });
+        }  
+        if (description && description.length > 500) {
+            return res.status(400).json({ erro: "A descrição deve ter no máximo 500 caracteres" });
+        }
         const dados = {
             title: title,
             description: description,

@@ -17,13 +17,13 @@ module.exports = {
     },
     atualizar: (id, novosDados) => {
         const indice = tarefas.findIndex(tarefa => tarefa.id === id);
-        if (indice === -1) throw new Error("Tarefa não encontrada");
+        if (indice === -1) return null;
         tarefas[indice] = {...tarefas[indice], ... novosDados};
         return tarefas[indice]; 
     },
     excluir: (id) => {
         const indice = tarefas.findIndex(tarefa => tarefa.id === id);
-        if (indice === -1) throw new Error("Tarefa não encontrada");
+        if (indice === -1) return null;
         return tarefas.splice(indice, 1)[0];
     }
 };
