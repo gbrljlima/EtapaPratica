@@ -21,7 +21,8 @@ module.exports = {
         if (description && description.length > 500) {
             return res.status(400).json({ erro: "A descrição deve ter no máximo 500 caracteres" });
         }  
-        const novaTarefa = taskModel.criar(title, description);
+        const novaTarefa = req.body;
+        await taskModel.criar(novaTarefa);
         res.status(201).json(novaTarefa);
     },
     buscarTarefa: async (req, res) => {
