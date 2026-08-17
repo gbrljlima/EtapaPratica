@@ -9,12 +9,13 @@ function CriarTarefa() {
     const [formData, setFormData] = useState({
        title:'',
        description:'',
-       completed:''
+       completed: false
     });
     const [carregamento, setCarregamento] = useState(true);
     const navigate = useNavigate();
     const {id} = useParams();
     const modoEdicao = Boolean(id);
+    const [tarefaOriginal, setTarefaOriginal] = useState(null);
     
     const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,11 +29,14 @@ function CriarTarefa() {
             const fetchTarefa = async() => {
                 try {
                     const tarefa = await listarTarefaId(id, {signal});
-                    setFormData({
+                    const dados = {
                         title: tarefa.title,
                         description: tarefa.description || '',
                         completed: tarefa.completed
-                    });
+                    };
+                    setFormData(dados);
+                    setTarefaOriginal(dados);
+                    setCarregamento(false);
                 } catch (error) {
                     if (error.name === 'CanceledError' || error.message === 'canceled') {
                         console.log("Requisição anterior cancelada.");
@@ -40,9 +44,8 @@ function CriarTarefa() {
                     }
                     console.error("Erro ao buscar tarefa", error);
                     toast.error("Erro ao buscar tarefa!");
-                } finally {
                     setCarregamento(false);
-                }
+                } 
             };
             fetchTarefa();
             return () => {
@@ -52,8 +55,13 @@ function CriarTarefa() {
     }, [id, modoEdicao]);
 
     const handleSubmitTarefa = async (e) => {
-          e.preventDefault();
-          console.log('Form data:', formData);
+        e.preventDefault();
+        const formularioIgual = JSON.stringify(formData) === JSON.stringify(tarefaOriginal);
+        if (formularioIgual) {
+            console.log("Nenhuma alteração na tarefa detectada...");
+            navigate('/', { state: { mensagemSucesso: "Tarefa Editada com sucesso!" } });
+            return;
+        }
         try {
             if (modoEdicao) {
                 await editarTarefa(id, {
@@ -124,7 +132,8 @@ function CriarTarefa() {
                     </form>
                 </div>
             }
-            </main><ToastContainer/>
+            </main>
+            <ToastContainer/>
         </div>
         
     )
