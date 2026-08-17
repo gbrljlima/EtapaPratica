@@ -26,6 +26,7 @@ A organização da aplicação está dividida em duas partes (backend e frontend
 └───Gerenciador-de-Tarefas
     ├───backend
     │   ├───controllers
+    │   ├───middlewares
     │   ├───models
     │   └───routes
     └───frontend
