@@ -11,17 +11,18 @@ module.exports = {
         }
     },
     criarTarefa: async (req, res) => {
-        try{
-            const novaTarefa = req.body;
+        const novaTarefa = req.body;
         if (!req.body.title) {
             return res.status(400).json({ erro: "O campo 'Título' é obrigatório." });
-        }    
-        const criar = await taskModel.criar(novaTarefa);
-        res.status(201).json(criar);
-        } catch (erro) {
-            console.error("ERRO COMPLETO AO CRIAR TAREFAS:", erro); 
-            res.status(500).json({ erro: erro.message });
-        }   
+        }
+        if (title.length > 100) {
+            return res.status(400).json({ erro: "O título deve ter no máximo 100 caracteres" });
+        }  
+        if (description && description.length > 500) {
+            return res.status(400).json({ erro: "A descrição deve ter no máximo 500 caracteres" });
+        }  
+        const novaTarefa = taskModel.criar(title, description);
+        res.status(201).json(novaTarefa);
     },
     buscarTarefa: async (req, res) => {
         const id = Number(req.params.id);

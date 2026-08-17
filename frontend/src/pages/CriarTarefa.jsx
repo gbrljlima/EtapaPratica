@@ -98,6 +98,7 @@ function CriarTarefa() {
                             <input
                                 className='w-full px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
                                 type='text'
+                                maxLength={100}
                                 name='title'
                                 placeholder='Ex: Estudar Tailwind CSS'
                                 value={formData.title}
@@ -109,6 +110,7 @@ function CriarTarefa() {
                             <label className='font-semibold text-gray-800' >Descrição (Opcional): </label>
                             <textarea className='px-4 py-3 focus:ring-2 ring-yellow-400 focus:bg-white bg-gray-50 border outline-none border-gray-400 rounded-lg transition-colors'
                                 type='text'
+                                maxLength={500}
                                 name='description'
                                 placeholder='Descrição da sua tarefa...'
                                 value={formData.description}
