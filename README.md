@@ -3,8 +3,8 @@
 Aplicação Full-Stack desenvolvida para gerenciar uma lista de tarefas (To-Do). O sistema permite ao usuário criar, editar, excluir e visualizar tarefas, além de alternar o status entre "Pendente" e "Concluída.
 
 ## Tecnologias utilizadas:
-* <b>Backend:</b> Node.js, Express e Cors.
-* <b>Frontend:</b> React, Axios, React Router Dom, Tailwind CSS e React Toastify.
+* <b>Backend:</b> Node.js, Express, Cors, dotEnv e Supabase.
+* <b>Frontend:</b> React, Axios, React Router Dom, Tailwind CSS, React Toastify e dotEnv.
 
 ##  Instruções para instalar dependências e rodar backend e frontend:
 Você precisará ter o Node.js instalado. (https://nodejs.org/pt-br/download)
@@ -26,6 +26,7 @@ A organização da aplicação está dividida em duas partes (backend e frontend
 └───Gerenciador-de-Tarefas
     ├───backend
     │   ├───controllers
+    │   ├───middlewares
     │   ├───models
     │   └───routes
     └───frontend
