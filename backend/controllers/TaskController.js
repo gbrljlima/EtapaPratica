@@ -12,7 +12,7 @@ module.exports = {
     },
     buscarTarefa: async (req, res) => {
         const id = Number(req.params.id);
-        const tarefa = await taskModel.buscarId(id);
+        const tarefa = req.tarefaEncontrada;
         res.status(200).json(tarefa);
     },
     atualizarTarefa: async (req, res) => {
