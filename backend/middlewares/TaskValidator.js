@@ -38,9 +38,12 @@ const validarAtualizacao = (req, res, next) => {
     next();
 };
 
-const verificarId = (req, res, next) => {
+const verificarId = async (req, res, next) => {
     const id = Number(req.params.id);
-    const tarefa = TaskModel.buscarId(id);
+    if (isNaN(id)) {
+        return res.status(400).json({ erro: "O ID fornecido deve ser um número válido." });
+    }
+    const tarefa = await TaskModel.buscarId(id);
     if (!tarefa) {
         return res.status(404).json({ erro: "Tarefa não encontrada!" });
     }
