@@ -2,6 +2,9 @@
 
 Aplicação Full-Stack desenvolvida para gerenciar uma lista de tarefas (To-Do). O sistema permite ao usuário criar, editar, excluir e visualizar tarefas, além de alternar o status entre "Pendente" e "Concluída.
 
+A aplicação está online, sendo utilizado o Supabase como banco de dados, render para hospedagem do servidor e vercel para hospadagem do frontend.
+Link: https://gerenciador-de-tarefas-drab-xi.vercel.app/
+
 ## Tecnologias utilizadas:
 * <b>Backend:</b> Node.js, Express, Cors, dotEnv e Supabase.
 * <b>Frontend:</b> React, Axios, React Router Dom, Tailwind CSS, React Toastify e dotEnv.
