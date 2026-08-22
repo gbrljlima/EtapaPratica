@@ -1,4 +1,4 @@
-export default function BotaoConfirmacao({confirmar, cancelar}) {
+export default function ModalConfirmacaoExclusao({confirmar, cancelar}) {
     return(
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
             <div className="bg-white max-w-sm shadow-lg rounded-md px-4 py-8 sm:p-8 gap-5 flex justify-center flex-col items-center text-center" >

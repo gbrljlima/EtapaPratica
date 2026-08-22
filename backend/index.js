@@ -5,7 +5,7 @@ const cors = require('cors');
 const taskRouter = require('./routes/TaskRoute');
 
 const allowedOrigins = ['http://localhost:5173',
-    'http://localhost:3001'];
+    'https://gerenciador-de-tarefas-drab-xi.vercel.app'];
 
 app.get('/', (req, res) => {res.send("Servidor da aplicação de gerenciamento de tarefas.")});
 app.use(cors({origin: allowedOrigins}));

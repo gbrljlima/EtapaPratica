@@ -1,52 +1,23 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:3001/api/tasks';
 
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api/tasks',
+});
 
-export const criarTarefa = async (tarefa) => {
-    try {
-      const response = await axios.post(API_URL, tarefa);
-      return await response.data;
-    } catch (error) {
-      console.error("Erro na API:", error.response?.data?.erro || error.message);
-      throw error;
-  }
-};
-export const listarTarefas = async () => {
-  try {
-    const response = await axios.get(API_URL);
-    return await response.data;
-  } catch (error) {
-    console.error("Erro na API:", error.response?.data?.erro || error.message);
-    throw error;
-  }
-};
-export const editarTarefa = async (id, tarefa) => {
-  try {
-    const response = await axios.put( `${API_URL}/${id}`, tarefa);
+api.interceptors.response.use((response) => {
+  return response.data;
+}, (error) => {
+  console.error("Erro na API:", error.response?.data?.erro || error.message);
+  return Promise.reject(error);
+});
 
-    console.log("Tarefa Atualizada", response.data);
-    return await response.data;
-  } catch (error) {
-    console.error("Erro na API:", error.response?.data?.erro || error.message);
-    throw error;
-  }
-};
-export const excluirTarefa = async (id) => {
-  try {
-    const response = await axios.delete( `${API_URL}/${id}`);
-
-    return await response.data;
-  } catch (error) {
-    console.error("Erro na API:", error.response?.data?.erro || error.message);
-    throw error;
-  }
-};
-export const listarTarefaId = async (id, config = {}) => {
-  try {
-    const response = await axios.get(`${API_URL}/${id}`, config);
-    return await response.data;
-  } catch (error) {
-    console.error("Erro na API:", error.response?.data?.erro || error.message);
-    throw error;
-  }
-};
+export const criarTarefa =  (tarefa) => 
+  api.post('/', tarefa);
+export const listarTarefas = () => 
+  api.get('/');
+export const editarTarefa = (id, tarefa) =>
+  api.put( `/${id}`, tarefa);
+export const excluirTarefa = (id) => 
+  api.delete( `/${id}`);
+export const listarTarefaId = (id, config = {}) => 
+  api.get(`/${id}`, config);

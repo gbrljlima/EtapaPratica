@@ -1,24 +1,21 @@
 const taskModel = require('../models/TaskModel');
-const atrasar = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 module.exports = {
     listarTarefas: async (req, res) => {
-        await atrasar(2000);
-        const tarefas = taskModel.listarTarefas();
+        const tarefas = await taskModel.listarTarefas();
         res.status(200).json(tarefas);
     },
-    criarTarefa: (req, res) => {
-        const { title, description } = req.body;
-        const novaTarefa = taskModel.criar(title, description);
+    criarTarefa: async (req, res) => {
+        const novaTarefa = req.body;
+        await taskModel.criar(novaTarefa);
         res.status(201).json(novaTarefa);
     },
     buscarTarefa: async (req, res) => {
-        await atrasar(2000);
         const id = Number(req.params.id);
-        const tarefa = taskModel.buscarId(id);
+        const tarefa = req.tarefaEncontrada;
         res.status(200).json(tarefa);
     },
-    atualizarTarefa: (req, res) => {
+    atualizarTarefa: async (req, res) => {
         const id = Number(req.params.id);
         const { title, description, completed } = req.body;
         const dados = {
@@ -26,12 +23,12 @@ module.exports = {
             description: description,
             completed: completed
         }
-        const tarefaAtualizada = taskModel.atualizar(id, dados);
+        const tarefaAtualizada = await taskModel.atualizar(id, dados);
         res.status(200).json(tarefaAtualizada);
     },
-    excluirTarefa: (req, res) => {
+    excluirTarefa: async (req, res) => {
         const id = Number(req.params.id);
-        const excluirTarefa = taskModel.excluir(id);
+        const excluirTarefa = await taskModel.excluir(id);
         res.status(200).json({ mensagem: "Tarefa Excluída!", tarefa: excluirTarefa });
     } 
 };
